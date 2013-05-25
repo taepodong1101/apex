@@ -1,0 +1,310 @@
+<script language="javascript" type="text/javascript"> 
+
+/* Defunct function */
+function update_max_discount_text()
+{
+	var products = document.getElementsByName("f02");
+	var max_discount = 0;
+	
+	for (var i = 0; i < products.length; i++)
+	{
+		var get2 = new htmldb_Get(null,null,'APPLICATION_PROCESS=GET_ITEM_MAX_DISCOUNT',0);
+
+		get2.add('PROD_ID2',$v(products[i]));
+		var gReturn = get2.get();
+		gReturn = parseFloat(gReturn);
+		
+		
+		max_discount = max_discount + gReturn;
+	}
+
+	$x('P21_MAX_ALLOWED_DISCOUNT').value = max_discount;
+	
+	
+}
+
+
+</script>
+
+<script language="javascript" type="text/javascript"> 
+function editCustomer_popup()
+{ 
+
+	var cus_id = $v('P21_CUSTOMER_ID');
+	var url = 'f?p=&APP_ID.:70:&APP_SESSION.::NO::P70_CUSTOMER_ID:';
+url = url.concat(cus_id);
+
+	w = open(url,"winLov3","position=center, top=1,left=0,Scrollbars=0,resizable=0,width=605,height=500");
+	if (w.opener == null)
+	w.opener = self;
+	w.focus();
+
+	
+	
+}
+</script> 
+
+<script language="javascript" type="text/javascript"> 
+function newGrossProfit()
+{ 
+
+	url = 'f?p=&APP_ID.:69:&APP_SESSION.::NO::P69_ORDER_ID:&P21_ORDER_ID.';
+
+			w = open(url,"winLov3","position=center, top=1,left=0,Scrollbars=0,resizable=0,width=605,height=500");
+			if (w.opener == null)
+			w.opener = self;
+			w.focus();
+}
+</script> 
+
+
+<script language="javascript" type="text/javascript"> 
+function print_report()
+{ 
+	url = 'f?p=&APP_ID.:37:&APP_SESSION.::NO::P37_ORDER_ID,P37_SITE_ID,P37_BILL_TO:&P21_ORDER_ID.,&P21_SITE_ID.,&P21_BILL_TO.';
+	win = window.open(url);
+	win.onload = function(){window.print()}
+
+}
+</script> 
+
+
+
+<script language="JavaScript" type="text/javascript">
+  function showOrderAudit()
+	{
+			url = 'f?p=&APP_ID.:56:&APP_SESSION.::NO:RP,56:P56_ORDER_ID:&P21_ORDER_ID.';
+			w = open(url,"winLov3","position=center, top=1,left=0,Scrollbars=1,resizable=1,width=805,height=700");
+			if (w.opener == null)
+			w.opener = self;
+			w.focus();
+	}			
+</script>
+
+<script language="JavaScript" type="text/javascript">
+  function salesrepChange()
+	{
+			url = 'f?p=&APP_ID.:49:&APP_SESSION.::NO:RP,49:P49_ORDER_ID:&P21_ORDER_ID.';
+			w = open(url,"winLov3","position=center, top=1,left=0,Scrollbars=0,resizable=0,width=605,height=500");
+			if (w.opener == null)
+			w.opener = self;
+			w.focus();
+	}			
+</script>
+
+<script language="JavaScript" type="text/javascript">
+
+function setColor(pThis)
+{
+	var vv = $v(pThis);
+	var cls = '#'+pThis;
+	
+	if(isNaN(vv))
+	{	
+		$(cls).css("background-color","red");
+	}
+	else
+	{
+		$(cls).css("background-color","white");
+	}
+}
+
+
+</script>
+
+
+
+<script language="JavaScript" type="text/javascript">
+  function closeOrder()
+	{
+			url = 'f?p=&APP_ID.:50:&APP_SESSION.::NO:RP,50:P50_ORDER_ID:&P21_ORDER_ID.';
+			w = open(url,"winLov3","position=center, top=1,left=0,Scrollbars=0,resizable=0,width=605,height=500");
+			if (w.opener == null)
+			w.opener = self;
+			w.focus();
+	}			
+</script>
+
+<script language="JavaScript" type="text/javascript">
+  function newTask()
+	{
+		if($v('P21_ORDER_ID') == null || isNaN($v('P21_ORDER_ID')) || $v('P21_ORDER_ID')== "")
+		{
+			url = 'f?p=&APP_ID.:44:&APP_SESSION.::NO:RP,44';
+			w = open(url,"winLov3","position=center, top=1,left=0,Scrollbars=0,resizable=0,width=605,height=500");
+			if (w.opener == null)
+			w.opener = self;
+			w.focus();
+		}
+		else
+		{
+			url = 'f?p=&APP_ID.:44:&APP_SESSION.::NO:RP,44:P44_ORDER_ID:&P21_ORDER_ID.';
+			w = open(url,"winLov3","position=center, top=1,left=0,Scrollbars=0,resizable=0,width=605,height=500");
+			if (w.opener == null)
+			w.opener = self;
+			w.focus();
+		}
+			
+	}			
+</script>
+
+
+
+<script language="JavaScript" type="text/javascript">
+  function newInvoice2()
+	{
+		url = 'f?p=&APP_ID.:60:&APP_SESSION.::NO::P60_ORDER_ID,P60_SITE_ID,P60_BILL_TO:&P21_ORDER_ID.,&P21_SITE_ID.,&P21_BILL_TO.';
+		w = open(url,"winLov3","position=center, top=1,left=0,Scrollbars=1,resizable=0,width=800,height=600");
+		if (w.opener == null)
+		w.opener = self;
+		w.focus();		
+	}			
+</script>
+
+
+<script language="JavaScript" type="text/javascript">
+  function newInvoice()
+	{
+		url = 'f?p=&APP_ID.:37:&APP_SESSION.::NO::P37_ORDER_ID,P37_SITE_ID,P37_BILL_TO:&P21_ORDER_ID.,&P21_SITE_ID.,&P21_BILL_TO.';
+		w = open(url,"winLov3","position=center, top=1,left=0,Scrollbars=1,resizable=0,width=800,height=600");
+		if (w.opener == null)
+		w.opener = self;
+		w.focus();		
+	}			
+</script>
+
+<script language="JavaScript" type="text/javascript">
+  function _OBSOLETE_newTask()
+	{
+		url = 'f?p=&APP_ID.:44:&APP_SESSION.::NO:RP,44';
+		w = open(url,"winLov3","position=center, top=1,left=0,Scrollbars=0,resizable=0,width=605,height=500");
+		if (w.opener == null)
+		w.opener = self;
+		w.focus();		
+	}			
+</script>
+
+<script language="JavaScript" type="text/javascript">
+	function addTotalAndApplyChange()
+	{
+	addTotal();
+	doSubmit('SAVE');
+	}
+</script>
+
+<script language="JavaScript" type="text/javascript">
+	function addRowAndTotal()
+	{
+		addRow();
+		addTotal();
+	}
+		var products = document.getElementsByName("f02");
+</script>
+
+
+<script language="JavaScript" type="text/javascript">
+	/* After discount is updated */
+	function calcTotalPayable()
+	{
+		tp = $v('P21_TOTAL_COST');
+		disc = $v('P21_TOTAL_DISCOUNT');
+		bal = tp - disc;
+		if(!isNaN(disc) && bal >= 0)
+		{
+			$x('P21_TOTAL_PAYABLE').value = bal;
+		}
+	}
+</script>
+
+<script language="JavaScript" type="text/javascript">
+  function newCustomer()
+	{
+		url = 'f?p=&APP_ID.:11:&APP_SESSION.::NO:RP,11';
+		w = open(url,"winLov3","position=center, top=1,left=0,Scrollbars=0,resizable=0,width=605,height=500");
+		if (w.opener == null)
+		w.opener = self;
+		w.focus();		
+	}			
+</script>
+
+
+
+<script language="JavaScript" type="text/javascript">
+	function addTotal()
+	{
+	
+		// additional costs & requirements
+		var requirements_charges = parseFloat($v('P21_ADDITIONAL_CHARGES_REQS'));
+	
+		var order_entry_qty = document.getElementsByName("f05");	// Refers to quantity field in the tabular form
+		
+		/* new -added 26/september/2012 */
+		var item_price = document.getElementsByName("f06");	// refers to "Order Entry Total" 
+		
+		
+		var total = 0;
+		var itemValue = 0;
+		var itemDiscount = 0;
+		
+		for (var i = 0; i < order_entry_qty.length; i++)
+		{		
+			if((isNaN(order_entry_qty[i].value) || order_entry_qty[i].value == null || order_entry_qty[i].value == "") || (isNaN(products[i].value) || products[i].value == null || products[i].value == ""))
+			{
+				itemValue = 0;
+				var prodPrice = 0;
+				item_price[i].value = null;
+			}
+			else
+			{
+				itemValue = parseFloat(products[i].value);
+				 
+				var get2 = new htmldb_Get(null,null,'APPLICATION_PROCESS=GET_PRODUCT_PRICE',0);
+
+				get2.add('PROD_ID',itemValue);
+				var gReturn = get2.get();
+				 
+				if(gReturn)
+				{
+					prodPrice = gReturn;
+					prodPrice = prodPrice * parseFloat(order_entry_qty[i].value);	// price X quantity
+					//console.log(prodPrice);
+					//console.log(order_entry_qty[i]);
+					item_price[i].value = prodPrice;					
+				}
+			}
+			
+			total = total+ prodPrice;
+		}	
+		
+		var additional_costs = 0;
+		
+		var surcharge=0;
+		if (!isNaN($v('P21_SURCHARGE')) && $v('P21_SURCHARGE') != null )
+			surcharge = parseFloat($v('P21_SURCHARGE'));
+		
+		var delivery = 0;
+		if (!isNaN($v('P21_DELIVERY')) && $v('P21_DELIVERY') != null )
+			delivery = parseFloat($v('P21_DELIVERY'));
+
+		var roadworthy = 0;	
+		if (!isNaN($v('P21_ROADWORTHY')) && $v('P21_ROADWORTHY') != null )
+			roadworthy = parseFloat($v('P21_ROADWORTHY'));
+			
+		additional_costs = (surcharge+roadworthy+delivery)+requirements_charges;
+		
+		var total_cost = total + additional_costs;
+		
+		$x('P21_TOTAL_COST').value = total_cost.toFixed(2);
+		
+		var total_payable; 
+		if ( $v('P21_TOTAL_DISCOUNT') != null )
+		{
+			total_payable = ( total-parseFloat($v('P21_TOTAL_DISCOUNT')) ) + additional_costs;
+		}	
+		else
+		{	
+			total_payable = total +  additional_costs;
+		}
+		$x('P21_TOTAL_PAYABLE').value = total_payable.toFixed(2);
+	}
+</script>
