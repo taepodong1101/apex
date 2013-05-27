@@ -1,0 +1,20 @@
+
+<script language="JavaScript" type="text/javascript">
+function changeReportAndSubmit()
+{
+  gReport.pull(5482353279954456,'REPORT_CHANGED');
+}
+</script>
+
+<script language="JavaScript" type="text/javascript">
+function changeIRText(pText){
+		$('select#apexir_SAVED_REPORTS').find('option').each(function(index,elem) {
+			$(elem).text(function(i, text) {
+						return text.replace('1. Primary Report', pText);
+				}); // end of changing text
+			});
+
+		}
+
+
+</script>
