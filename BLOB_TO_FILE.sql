@@ -1,5 +1,5 @@
 -- procedure to copy files to file system
-/* Credits: decasse from OTN Forums: https://forums.oracle.com/forums/message.jspa?messageID=11046362#11046362 */
+-- Credits: decasse from OTN Forums: https://forums.oracle.com/forums/thread.jspa?threadID=634578
 
  Procedure BLOB_TO_FILE(p_file_name In Varchar2) Is
     l_out_file    UTL_FILE.file_type;
