@@ -307,9 +307,9 @@ function setColor(pThis)
 	function update_row_total(pThis)
 	{
 		// pthis => f02 
-		var f02 = 'f02_'+pThis.id.substring(4,8);
-		var f05 = 'f05_'+pThis.id.substring(4,8);	// quantity column
-		var f06 = 'f06_'+pThis.id.substring(4,8);	// entry total column
+		var f02 = 'f02_'+pThis.substring(4,8);
+		var f05 = 'f05_'+pThis.substring(4,8);	// quantity column
+		var f06 = 'f06_'+pThis.substring(4,8);	// entry total column
 		
 		if ($v(pThis) != "" && !isNaN($v(pThis)))
 		{
@@ -330,19 +330,58 @@ function setColor(pThis)
 <script language="JavaScript" type="text/javascript">
 function addPackage(pThis)
 {
-var package_id = $v('P21_PACKAGE');
-var get2 = new htmldb_Get(null,null,'APPLICATION_PROCESS=GET_PACKAGE_CONTENT_STRING',0);
-get2.add('P21_PACKAGE', package_id);
-var gReturn = get2.get().replace(/(\r\n|\n|\r)/gm,"");
+	var package_id = $v('P21_PACKAGE');
+	var get2 = new htmldb_Get(null,null,'APPLICATION_PROCESS=GET_PACKAGE_CONTENT_STRING',0);
+	get2.add('P21_PACKAGE', package_id);
+	var gReturn = get2.get().replace(/(\r\n|\n|\r)/gm,"");
 
-    var product_list_array = gReturn.split("|");
-    jQuery.each(product_list_array, function(k,v) {
-    var array_item = v.split(":");
-    addRow();
-    $("[name='f02']").last().val(array_item[0]);
-    $("[name='f05']").last().val(array_item[1]);
-    
-});
+	 var product_list_array = gReturn.split("|");
+	 jQuery.each(product_list_array, function(k,v) {
+	  
+	var array_item = v.split(":");
+
+	var f02 = document.getElementsByName('f02');
+	var f05 = document.getElementsByName('f05');
+
+	if(f02.length == 0)
+	{
+		addRow();
+		$("[name='f02']").last().val(array_item[0]);
+		$("[name='f05']").last().val(array_item[1]);
+		var last = $("[name='f02']").last().attr("id");
+		console.log(last);
+		update_row_total(last);			
+	}
+	else
+	{
+		var matched = 0;
+		for(var i=1;i<f02.length;i++)
+		{
+			if($v(f02[i]) ==array_item[0])
+			{
+				matched = 1;
+				// item already exist, just update total
+				$x(f05[i]).value = parseFloat($x(f05[i]).value) + parseFloat(array_item[1]);
+				var last = f02[i].id;
+				console.log(last);
+				update_row_total(last);
+				
+			}
+		}
+		
+		if (matched ==0)
+		{
+			addRow();
+			$("[name='f02']").last().val(array_item[0]);
+			$("[name='f05']").last().val(array_item[1]);
+			var last = $("[name='f05']").last().attr("id");
+			console.log(last);
+			update_row_total(last);
+		}
+	}
+	});
+
+
 }
 
 </script>
