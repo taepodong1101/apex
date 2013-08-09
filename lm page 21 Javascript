@@ -325,3 +325,24 @@ function setColor(pThis)
 		addTotal();
 	}
 </script>
+
+
+<script language="JavaScript" type="text/javascript">
+function addPackage(pThis)
+{
+var package_id = $v('P21_PACKAGE');
+var get2 = new htmldb_Get(null,null,'APPLICATION_PROCESS=GET_PACKAGE_CONTENT_STRING',0);
+get2.add('P21_PACKAGE', package_id);
+var gReturn = get2.get().replace(/(\r\n|\n|\r)/gm,"");
+
+    var product_list_array = gReturn.split("|");
+    jQuery.each(product_list_array, function(k,v) {
+    var array_item = v.split(":");
+    addRow();
+    $("[name='f02']").last().val(array_item[0]);
+    $("[name='f05']").last().val(array_item[1]);
+    
+});
+}
+
+</script>
