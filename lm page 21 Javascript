@@ -306,8 +306,9 @@ function setColor(pThis)
 	
 	function update_row_total(pThis)
 	{
+			
 		// pthis => f02 
-		var f02 = 'f02_'+pThis.substring(4,8);
+		var f02 = 'f02_'+pThis.substring(4,8);	// product checklist
 		var f05 = 'f05_'+pThis.substring(4,8);	// quantity column
 		var f06 = 'f06_'+pThis.substring(4,8);	// entry total column
 		
@@ -328,60 +329,98 @@ function setColor(pThis)
 
 
 <script language="JavaScript" type="text/javascript">
-function addPackage(pThis)
+function addPackage()
 {
 	var package_id = $v('P21_PACKAGE');
-	var get2 = new htmldb_Get(null,null,'APPLICATION_PROCESS=GET_PACKAGE_CONTENT_STRING',0);
-	get2.add('P21_PACKAGE', package_id);
-	var gReturn = get2.get().replace(/(\r\n|\n|\r)/gm,"");
 
-	 var product_list_array = gReturn.split("|");
-	 jQuery.each(product_list_array, function(k,v) {
-	  
-	var array_item = v.split(":");
+		var get2 = new htmldb_Get(null,null,'APPLICATION_PROCESS=GET_PACKAGE_CONTENT_STRING',0);
+		get2.add('P21_PACKAGE', package_id);
+		var gReturn = get2.get().replace(/(\r\n|\n|\r)/gm,"");
 
-	var f02 = document.getElementsByName('f02');
-	var f05 = document.getElementsByName('f05');
+		 var product_list_array = gReturn.split("|");
+		 jQuery.each(product_list_array, function(k,v) {
+		  
+		var array_item = v.split(":");
 
-	if(f02.length == 0)
-	{
-		addRow();
-		$("[name='f02']").last().val(array_item[0]);
-		$("[name='f05']").last().val(array_item[1]);
-		var last = $("[name='f02']").last().attr("id");
-		console.log(last);
-		update_row_total(last);			
-	}
-	else
-	{
-		var matched = 0;
-		for(var i=1;i<f02.length;i++)
-		{
-			if($v(f02[i]) ==array_item[0])
-			{
-				matched = 1;
-				// item already exist, just update total
-				$x(f05[i]).value = parseFloat($x(f05[i]).value) + parseFloat(array_item[1]);
-				var last = f02[i].id;
-				console.log(last);
-				update_row_total(last);
-				
-			}
-		}
+		var f02 = document.getElementsByName('f02');
+		var f05 = document.getElementsByName('f05');
+		var f06 = document.getElementsByName('f06');	// entry total column
 		
-		if (matched ==0)
+		if(f02.length == 0)	// new order with no products?
 		{
 			addRow();
-			$("[name='f02']").last().val(array_item[0]);
-			$("[name='f05']").last().val(array_item[1]);
-			var last = $("[name='f05']").last().attr("id");
-			console.log(last);
-			update_row_total(last);
+			$("[name='f02']").last().val(parseFloat(array_item[0])); // set product in pick list
+			$("[name='f05']").last().val(parseFloat(array_item[1]));	// update quantity
+			$("[name='f06']").last().val( parseFloat( array_item[2])* parseFloat(array_item[1]) ); // update entry total (quantity * selling price)
+			$("[name='f06']").last().change();
 		}
-	}
-	});
+		else
+		{
+			var matched = 0;
+			for(var i=0;i<f02.length;i++)
+			{
+				if($v(f02[i]) ==array_item[0])
+				{
+					matched = 1;
+					// item already exist, just update quantity and entry total
+					$x(f05[i]).value = parseFloat($v(f05[i])) + parseFloat(array_item[1]); // add up quantity
+					$x(f06[i]).value = parseFloat( parseFloat($v(f05[i])) * parseFloat(array_item[2]) ); // update entry total (quantity * selling price)
+					$("[name='f06']").last().change();
+			
+				}
+			}
+			
+			if (matched ==0)	// when child product in package doesn't already exist in the list of products
+			{
+				addRow();
+				$("[name='f02']").last().val(parseFloat(array_item[0]));
+				$("[name='f05']").last().val(parseFloat(array_item[1]));
+				$("[name='f06']").last().val( parseFloat( array_item[2])* parseFloat(array_item[1]) ); // update entry total (quantity * selling price)			
+				$("[name='f06']").last().change();
 
+
+			}
+		}
+		});
+		// total up
+		addTotal();
+		
+		// get discount
+		var get2 = new htmldb_Get(null,null,'APPLICATION_PROCESS=GET_PACKAGE_DISCOUNT',0);
+		get2.add('P21_PACKAGE', package_id);
+		var discount = parseFloat(get2.get());
+		$x('P21_TOTAL_DISCOUNT').value = parseFloat($v('P21_TOTAL_DISCOUNT'))+discount;
+		
+		// update total payable for discount
+		calcTotalPayable();
 
 }
+
+</script>
+<script language="JavaScript" type="text/javascript">
+	function delete_rows()
+	{
+		var need_submit = 0;
+		$("[name='f01']").each(function(){
+
+		if($(this).attr("checked"))
+		{
+			if(this.value == 0) // new row, not saved. Checkbox value is 0
+			{
+				$(this).closest("tr").remove();
+			}
+			else	// row was saved before, need to be removed via page submission.
+				need_submit = need_submit + 1;
+			
+		}
+
+		});
+		
+		if(need_submit > 0)	// require submission?
+			apex.submit('MULTI_ROW_DELETE');
+			
+		addTotal();	
+
+	}
 
 </script>
