@@ -12,16 +12,15 @@
    
   Begin
     For rec In (Select ID
-                          From HTMLDB_APPLICATION_FILES
-                         Where Name = p_file_name)
+                From HTMLDB_APPLICATION_FILES
+                Where Name = p_file_name)
     Loop
         Select BLOB_CONTENT, filename Into p_data, file_name From HTMLDB_APPLICATION_FILES Where ID = rec.ID;
         --
         l_blob_len := DBMS_LOB.getlength(p_data);
         l_out_file := UTL_FILE.fopen('UPDOWNFILES_DIR', file_name, 'wb', 32767);
         --
-        While l_pos < l_blob_len
-        Loop
+        While l_pos < l_blob_len Loop
           DBMS_LOB.Read(p_data, l_amount, l_pos, l_buffer);
           If l_buffer Is Not Null Then
             UTL_FILE.put_raw(l_out_file, l_buffer, True);
@@ -30,7 +29,10 @@
         End Loop;
         --
         UTL_FILE.fclose(l_out_file);
-        --------------
+        
+        -- Delete file from APEX table
+        DELETE From HTMLDB_APPLICATION_FILES Where ID = rec.ID;
+
     End Loop;          
   Exception
     When Others Then
