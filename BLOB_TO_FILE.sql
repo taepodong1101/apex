@@ -2,14 +2,14 @@
 -- Credits: decasse from OTN Forums: https://forums.oracle.com/forums/thread.jspa?threadID=634578
 
  Procedure BLOB_TO_FILE(p_file_name In Varchar2) Is
-    l_out_file    UTL_FILE.file_type;
-    l_buffer      Raw(32767);
-    l_amount      Binary_Integer := 32767;
-    l_pos         Integer := 1;
-    l_blob_len    Integer;
-    p_data        Blob;
-    file_name  Varchar2(256);
- 
+                        l_out_file    UTL_FILE.file_type;
+                        l_buffer      Raw(32767);
+                        l_amount      Binary_Integer := 32767;
+                        l_pos         Integer := 1;
+                        l_blob_len    Integer;
+                        p_data        Blob;
+                        file_name  Varchar2(256);
+   
   Begin
     For rec In (Select ID
                           From HTMLDB_APPLICATION_FILES
